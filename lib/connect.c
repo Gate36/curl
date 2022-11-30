@@ -1524,7 +1524,12 @@ CURLcode Curl_socket(struct Curl_easy *data,
   switch(conn->transport) {
   case TRNSPRT_TCP:
     addr->socktype = SOCK_STREAM;
-    addr->protocol = IPPROTO_TCP;
+    #ifdef MPTCP
+      if(conn->bits.tcp_multipath)
+        addr->protocol = IPPROTO_MPTCP;
+      else
+    #endif
+        addr->protocol = IPPROTO_TCP;
     break;
   case TRNSPRT_UNIX:
     addr->socktype = SOCK_STREAM;
