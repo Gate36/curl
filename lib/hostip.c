@@ -589,6 +589,24 @@ bool Curl_ipv6works(struct Curl_easy *data)
 }
 #endif /* ENABLE_IPV6 */
 
+#ifdef MPTCP
+bool Curl_mptcpworks(struct Crul_easy *data)
+{
+  if(data) {
+    DEBUGASSERT(data);
+    DEBUGASSERT(data->set.tcp_multipath);
+    return data->set.tcp_multipath;
+  }
+  else {
+    
+/*
+!!*developing area!!
+!! DO NOT TOUCH!!
+*/
+  }
+}
+#endif /* MPTCP */
+
 /*
  * Curl_host_is_ipnum() returns TRUE if the given string is a numerical IPv4
  * (or IPv6 if supported) address.
