@@ -252,6 +252,7 @@ static const struct LongShort aliases[]= {
   {"Ek", "tlsuser",                  ARG_STRING},
   {"El", "tlspassword",              ARG_STRING},
   {"Em", "tlsauthtype",              ARG_STRING},
+  {"EM", "multipath",                ARG_BOOL},
   {"En", "ssl-allow-beast",          ARG_BOOL},
   {"Eo", "ssl-auto-client-cert",     ARG_BOOL},
   {"EO", "proxy-ssl-auto-client-cert", ARG_BOOL},
@@ -1770,6 +1771,11 @@ ParameterError getparameter(const char *flag, /* f or -long-flag */
         if(!curl_strequal(config->tls_authtype, "SRP"))
           return PARAM_LIBCURL_DOESNT_SUPPORT; /* only support TLS-SRP */
         break;
+#ifdef MPTCP
+        case 'M': /* Multipath TCP */
+          config-> tcp_multipath = TRUE;
+          break;
+#endif
       case 'n': /* no empty SSL fragments, --ssl-allow-beast */
         if(feature_ssl)
           config->ssl_allow_beast = toggle;

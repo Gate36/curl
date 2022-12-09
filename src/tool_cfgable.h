@@ -225,6 +225,9 @@ struct OperationConfig {
                                Kerberos 5 and SPNEGO */
 
   bool tcp_nodelay;
+#ifdef
+  bool tcp_multipath;
+#endif
   bool tcp_fastopen;
   long req_retry;           /* number of retries */
   bool retry_all_errors;    /* retry on any error */
