@@ -3732,13 +3732,6 @@ static CURLcode create_conn(struct Curl_easy *data,
   if(result)
     goto out;
 
-  conn->recv[FIRSTSOCKET] = Curl_recv_plain;
-  conn->send[FIRSTSOCKET] = Curl_send_plain;
-  conn->recv[SECONDARYSOCKET] = Curl_recv_plain;
-  conn->send[SECONDARYSOCKET] = Curl_send_plain;
-
-  conn->bits.tcp_fastopen = data->set.tcp_fastopen;
-
 #ifdef MPTCP
   if(data->set.tcp_multipath && Curl_mptcpworks(NULL))  {
     conn->bits.tcp_multipath = data->set.tcp_multipath;

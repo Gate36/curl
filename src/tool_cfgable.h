@@ -225,7 +225,7 @@ struct OperationConfig {
                                Kerberos 5 and SPNEGO */
 
   bool tcp_nodelay;
-#ifdef
+#ifdef MPTCP
   bool tcp_multipath;
 #endif
   bool tcp_fastopen;

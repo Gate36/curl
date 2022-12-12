@@ -598,11 +598,16 @@ bool Curl_mptcpworks(struct Crul_easy *data)
     return data->set.tcp_multipath;
   }
   else {
+    int mptcp_works = -1;
     
-/*
-!!*developing area!!
-!! DO NOT TOUCH!!
-*/
+    curl_socket_t s = socket(PF_INET6, SOCK_STREAM, IPPROTO_MPTCP);
+    if(s == CURL_SOCKET_BAD)
+      mptcp_works = 0;
+    else {
+      mptcp_works = 1;
+      sclose(s);
+    }
+    return (mptcp_works > 0)?TRUE:FALSE;
   }
 }
 #endif /* MPTCP */
