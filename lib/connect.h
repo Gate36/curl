@@ -29,6 +29,12 @@
 #include "sockaddr.h"
 #include "timeval.h"
 
+#ifdef MPTCP
+#ifndef IPPROTO_MPTCP
+#define IPPROTO_MPTCP 262
+#endif
+#endif
+
 CURLcode Curl_connecthost(struct Curl_easy *data,
                           struct connectdata *conn,
                           const struct Curl_dns_entry *host);

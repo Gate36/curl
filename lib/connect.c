@@ -1466,6 +1466,21 @@ bool Curl_connalive(struct Curl_easy *data, struct connectdata *conn)
 int Curl_closesocket(struct Curl_easy *data, struct connectdata *conn,
                      curl_socket_t sock)
 {
+#ifdef MPTCP
+  struct mptcp_info inf;
+  socklen_t optlen;
+  int ret;
+  if(data->set.verbose && conn->transport == TRNSPRT_TCP && conn->bits.tcp_multipath) {
+    optlen = sizeof(inf);
+    if(!getsockopt(sock, SOL_MPTCP, MPTCP_INFO, &inf, &optlen)) {
+      infof(data, "Multipath TCP used %d subflows on this connection", inf.mptcpi_subflows);
+    }
+    else {
+      infof(data, "Multipath TCP was DISABLED on this connection");
+    }
+  }
+ #endif /* MPTCP */
+ 
   if(conn && conn->fclosesocket) {
     if((sock == conn->sock[SECONDARYSOCKET]) && conn->bits.sock_accepted)
       /* if this socket matches the second socket, and that was created with
